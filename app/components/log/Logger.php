@@ -77,7 +77,7 @@ class Logger extends \yii\log\Logger
     /**
      * 重写新增请求参数
      */
-    public function init(): void
+    public function init()
     {
         $this->spanid   = get_spanid();
         $this->traceid  = get_traceid();
