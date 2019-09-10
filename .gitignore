@@ -12,5 +12,4 @@ composer.lock
 runtime/
 docs/
 temp/
-vendor/
 /app/config/develop/main.php
