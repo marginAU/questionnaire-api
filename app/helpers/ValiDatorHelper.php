@@ -11,7 +11,7 @@ use yii\validators\IpValidator;
  *
  * @version  2018年05月29日
  *
- * @author   lilin <lilin@kzl.com.cn>
+ * @author
  * @license  PHP Version 7.1.x {@link http://www.php.net/license/3_0.txt}
  */
 class ValidatorHelper
@@ -380,7 +380,7 @@ class ValidatorHelper
 
     /**
      * 身份证号验证
-     * 
+     *
      * @param array  $mixed
      * @param string $porp
      * @param null   $default
@@ -437,7 +437,7 @@ class ValidatorHelper
      * @param mixed        $default 默认值
      *
      * @return string
-     *               
+     *
      *
      * @throws \Exception
      *

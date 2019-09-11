@@ -2,8 +2,6 @@
 
 namespace app\helpers;
 
-use wzl\helpers\LangHelper;
-
 /**
  * header帮助类
  *
