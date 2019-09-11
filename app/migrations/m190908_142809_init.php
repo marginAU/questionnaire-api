@@ -60,7 +60,7 @@ CREATE TABLE `answer_source` (
   `uid` int(11) NOT NULL DEFAULT '0' COMMENT '用户id',
   `ctime` int(11) NOT NULL DEFAULT '0' COMMENT '提交时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='答案原数据表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='答案原数据表';
 
 CREATE TABLE `admin_user` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -73,7 +73,7 @@ CREATE TABLE `admin_user` (
   `expires` int (11)  NOT NULL DEFAULT 0 COMMENT 'token有效时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='后台用户';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  COMMENT='后台用户';
 
 insert into `admin_user` (username,password,status,salt) values ('oujun','7c47ba4845476d9e2104508d898116ae',1,'asdf');
 SQL;
