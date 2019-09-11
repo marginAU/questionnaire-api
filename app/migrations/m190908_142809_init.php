@@ -67,13 +67,15 @@ CREATE TABLE `admin_user` (
   `username` varchar(255)   NOT NULL DEFAULT '' COMMENT '用户账户',
   `password` varchar(255)   NOT NULL DEFAULT '' COMMENT '密码',
   `status` tinyint(2) NOT NULL COMMENT '状态，1=有效，2=无效',
-  `ctime` int(11) NOT NULL COMMENT '创建时间',
+  `ctime` int(11) NOT NULL default 0 COMMENT '创建时间',
   `token` varchar(512)   NOT NULL DEFAULT '' COMMENT 'token',
   `salt` varchar(64)   NOT NULL DEFAULT '' COMMENT '盐',
   `expires` int (11)  NOT NULL DEFAULT 0 COMMENT 'token有效时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='后台用户';
+
+insert into `admin_user` (username,password,status,salt) values ('oujun','7c47ba4845476d9e2104508d898116ae',1,'asdf');
 SQL;
 
         $this->db->createCommand($sql)->execute();
