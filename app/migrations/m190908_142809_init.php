@@ -37,7 +37,7 @@ CREATE TABLE `user` (
   `mobile` varchar(512)   NOT NULL DEFAULT '' COMMENT '电话',
   PRIMARY KEY (`id`),
   KEY `idcard` (`idcard`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='提交答案用户表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  COMMENT='提交答案用户表';
 
 CREATE TABLE `answer` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -52,7 +52,7 @@ CREATE TABLE `answer` (
   `ctime` int(11) NOT NULL DEFAULT '0' COMMENT '创建时间',
   PRIMARY KEY (`id`),
   KEY `uid` (`uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户答案';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  COMMENT='用户答案';
 
 CREATE TABLE `answer_source` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
