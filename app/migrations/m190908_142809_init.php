@@ -29,7 +29,7 @@ CREATE TABLE `user` (
   `work_time` tinyint(2) NOT NULL DEFAULT '0' COMMENT '从事气象行业工作时间',
   `work_place` varchar(512) CHARACTER  NOT NULL DEFAULT '' COMMENT '工作地点',
   `children_or_not` varchar(255) CHARACTER  NOT NULL DEFAULT 'B' COMMENT '是否有子女A=是，2=否',
-  `children_sex` varchar(2) CHARACTER  NOT NULL DEFAULT 'A' COMMENT '子女性别A=男。B=女',
+  `children_sex` varchar(255) CHARACTER  NOT NULL DEFAULT 'A' COMMENT '子女性别A=男。B=女',
   `children_age` tinyint(2) NOT NULL DEFAULT '0' COMMENT '子女年龄',
   `parent_work_status` tinyint(2) NOT NULL DEFAULT '2' COMMENT '父母或近亲中是否有人在气象行业工作',
   `social_scale` tinyint(2) NOT NULL DEFAULT '10' COMMENT '社会等级',
@@ -69,7 +69,7 @@ CREATE TABLE `admin_user` (
   `status` tinyint(2) NOT NULL COMMENT '状态，1=有效，2=无效',
   `ctime` int(11) NOT NULL COMMENT '创建时间',
   `token` varchar(512) CHARACTER  NOT NULL DEFAULT '' COMMENT 'token',
-  `salt` varchar(16) CHARACTER  NOT NULL DEFAULT '' COMMENT '盐',
+  `salt` varchar(64) CHARACTER  NOT NULL DEFAULT '' COMMENT '盐',
   `expires` int (11)  NOT NULL DEFAULT 0 COMMENT 'token有效时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
