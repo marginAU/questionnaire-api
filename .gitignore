@@ -10,6 +10,7 @@ composer.lock
 .phpintel/
 *.patch
 runtime/
+vendor/
 docs/
 temp/
 /app/config/develop/main.php
