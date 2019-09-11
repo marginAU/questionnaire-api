@@ -2,7 +2,7 @@
 
 return [
     'class'        => \yii\db\Connection::class,
-    'dsn'          => 'mysql:host=127.0.0.1;dbname=questionnaire',
+    'dsn'          => 'mysql:host=localhost;dbname=questionnaire',
     'username'     => 'root',
     'password'     => 'Oj949800!@#',
     'charset'      => 'utf8mb4',
@@ -12,7 +12,7 @@ return [
     ],
     'slaves'       => [
         [
-            'dsn' => 'mysql:host=127.0.0.1;dbname=questionnaire',
+            'dsn' => 'mysql:host=localhost;dbname=questionnaire',
         ],
     ],
     'slaveConfig'  => [
