@@ -15,26 +15,26 @@ class m190908_142809_init extends Migration
         $sql = <<<SQL
 CREATE TABLE `user` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `sex` varchar(255) CHARACTER  NOT NULL DEFAULT 'A' COMMENT '性别，A=男。B=女',
-  `username` varchar(255) CHARACTER  NOT NULL DEFAULT '' COMMENT '姓名',
-  `idcard` varchar(255) CHARACTER  NOT NULL DEFAULT '' COMMENT '身份证',
-  `position` varchar(255) CHARACTER  NOT NULL DEFAULT '' COMMENT '应聘岗位',
+  `sex` varchar(255)   NOT NULL DEFAULT 'A' COMMENT '性别，A=男。B=女',
+  `username` varchar(255)   NOT NULL DEFAULT '' COMMENT '姓名',
+  `idcard` varchar(255)   NOT NULL DEFAULT '' COMMENT '身份证',
+  `position` varchar(255)   NOT NULL DEFAULT '' COMMENT '应聘岗位',
   `age` tinyint(3) NOT NULL DEFAULT '0' COMMENT '年龄',
-  `nation` varchar(255) CHARACTER  NOT NULL DEFAULT '' COMMENT '名族',
+  `nation` varchar(255)   NOT NULL DEFAULT '' COMMENT '名族',
   `political_status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '政治面貌，1=群众，2=团圆，3=党员',
   `marital_status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '婚姻状况，A 已婚  B 未婚  C离异  D丧偶',
-  `education` varchar(255) CHARACTER  NOT NULL DEFAULT '' COMMENT '学历，A=初中及以下，B=高中/中专，C=高职/大专，D=大学本科，E=硕士（包括MBA,EMBA,MPA等），F=博士',
+  `education` varchar(255)   NOT NULL DEFAULT '' COMMENT '学历，A=初中及以下，B=高中/中专，C=高职/大专，D=大学本科，E=硕士（包括MBA,EMBA,MPA等），F=博士',
   `status` tinyint(2) NOT NULL DEFAULT '2' COMMENT '是否提交完成，1=是，2=否',
   `ctime` int(11) NOT NULL DEFAULT '0' COMMENT '创建时间',
   `work_time` tinyint(2) NOT NULL DEFAULT '0' COMMENT '从事气象行业工作时间',
-  `work_place` varchar(512) CHARACTER  NOT NULL DEFAULT '' COMMENT '工作地点',
-  `children_or_not` varchar(255) CHARACTER  NOT NULL DEFAULT 'B' COMMENT '是否有子女A=是，2=否',
-  `children_sex` varchar(255) CHARACTER  NOT NULL DEFAULT 'A' COMMENT '子女性别A=男。B=女',
+  `work_place` varchar(512)   NOT NULL DEFAULT '' COMMENT '工作地点',
+  `children_or_not` varchar(255)   NOT NULL DEFAULT 'B' COMMENT '是否有子女A=是，2=否',
+  `children_sex` varchar(255)   NOT NULL DEFAULT 'A' COMMENT '子女性别A=男。B=女',
   `children_age` tinyint(2) NOT NULL DEFAULT '0' COMMENT '子女年龄',
   `parent_work_status` tinyint(2) NOT NULL DEFAULT '2' COMMENT '父母或近亲中是否有人在气象行业工作',
   `social_scale` tinyint(2) NOT NULL DEFAULT '10' COMMENT '社会等级',
-  `source_place` varchar(512) CHARACTER  NOT NULL DEFAULT '' COMMENT '生源地',
-  `mobile` varchar(512) CHARACTER  NOT NULL DEFAULT '' COMMENT '电话',
+  `source_place` varchar(512)   NOT NULL DEFAULT '' COMMENT '生源地',
+  `mobile` varchar(512)   NOT NULL DEFAULT '' COMMENT '电话',
   PRIMARY KEY (`id`),
   KEY `idcard` (`idcard`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='提交答案用户表';
@@ -56,7 +56,7 @@ CREATE TABLE `answer` (
 
 CREATE TABLE `answer_source` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `answer_list` text CHARACTER  COMMENT '原始答案',
+  `answer_list` text   COMMENT '原始答案',
   `uid` int(11) NOT NULL DEFAULT '0' COMMENT '用户id',
   `ctime` int(11) NOT NULL DEFAULT '0' COMMENT '提交时间',
   PRIMARY KEY (`id`)
@@ -64,12 +64,12 @@ CREATE TABLE `answer_source` (
 
 CREATE TABLE `admin_user` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) CHARACTER  NOT NULL DEFAULT '' COMMENT '用户账户',
-  `password` varchar(255) CHARACTER  NOT NULL DEFAULT '' COMMENT '密码',
+  `username` varchar(255)   NOT NULL DEFAULT '' COMMENT '用户账户',
+  `password` varchar(255)   NOT NULL DEFAULT '' COMMENT '密码',
   `status` tinyint(2) NOT NULL COMMENT '状态，1=有效，2=无效',
   `ctime` int(11) NOT NULL COMMENT '创建时间',
-  `token` varchar(512) CHARACTER  NOT NULL DEFAULT '' COMMENT 'token',
-  `salt` varchar(64) CHARACTER  NOT NULL DEFAULT '' COMMENT '盐',
+  `token` varchar(512)   NOT NULL DEFAULT '' COMMENT 'token',
+  `salt` varchar(64)   NOT NULL DEFAULT '' COMMENT '盐',
   `expires` int (11)  NOT NULL DEFAULT 0 COMMENT 'token有效时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
