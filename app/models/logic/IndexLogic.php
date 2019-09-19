@@ -1,8 +1,6 @@
 <?php
 
-
 namespace app\models\logic;
-
 
 use app\components\CommonConst;
 use app\components\log\Log;
@@ -30,36 +28,12 @@ class IndexLogic extends Logic
         $this->answerSourceData = new AnswerSourceData();
     }
 
-    //问题列表
-    public function questionList(int $page): array
-    {
-        $questionList = [
-            1 => [
-                ['id' => 1,],
-//性别： A 男   B 女
-//2,年龄：___岁
-//3,民族：______
-//4,政治面貌：______
-//5,婚姻状态：A 已婚  B 未婚  C离异  D丧偶
-//6,受教育程度： A初中及以下
-//B高中/中专
-//C 大专/高职
-//D 大学本科
-//E 硕士（包括MBA,EMBA,MPA等）
-//F 博士
-//7,从事气象行业工作时间：___年     单位：___________
-//8,有无子女：A有  B无
-//子女性别：A 男   B 女
-//子女年龄：_____岁
-//9,父母或近亲中是否有人在气象行业工作：A有  B无
-//10,下图显示了一个10级的阶梯，这个梯子代表人们在社会在所处的位置。从01至10级，在梯子顶端的是位置最高的人们，他们的财富最多，受教育程度最高，有最好的工作；在梯子最下面的人们位置最低，他们的财富最少，受程度程度最低，工作不好或者没有工作。您认为您的家庭处于这个阶梯的哪一层？请填入1-10之间的数字。（   ）
-            ]
-        ];
-
-        return ['questionList' => []];
-    }
-
-
+    /**
+     * @param array $params
+     *
+     * @return array
+     * @throws \Throwable
+     */
     public function saveUserInfo(array $params)
     {
         $conditions = [
@@ -81,8 +55,8 @@ class IndexLogic extends Logic
         return ['uid' => $id];
     }
 
-    /**
-     * todo 计算分 算出区间
+     /**
+     *  计算分 算出区间
      *
      * @param array $answerList
      *
@@ -91,19 +65,14 @@ class IndexLogic extends Logic
     private function getPoint(array $answerList)
     {
         $totalPoint         = 0;
-        $frustrationPoints  = 0;
-        $suuportPoints      = 0;//承受因子
-        $tenaciousPoints    = 0;//顽强因子
-        $suuportPoints      = 0;//坚定因子
-        $suuportPoints      = 0;//沉着因子
-        $responsiblePoints  = 0;
-        $debuggingPoints    = 0;
-        $assistancePoints   = 0;
-        $selfEfficacyPoints = 0;
-        $subscalePoints     = 0;
+        $frustrationPoints  = 0;//抗挫能力分数
+        $responsiblePoints  = 0;//责任心分数
+        $debuggingPoints    = 0;//心理调试能力分数
+        $assistancePoints   = 0;//团队协助能力分数
+        $selfEfficacyPoints = 0;//自我效能感分数
+        $subscalePoints     = 0;//测谎分数
 
-        //-51 待定
-        $allReverse   = [7, 13, 16, 18, 22, 32, 41, 51, 46, 53, 60, 68, 70, 75, 87, 93, 96];
+        $allReverse   = [7, 13, 16, 18, 22, 26, 32, 41, 46, 51, 52, 53, 60, 70, 75, 87, 93, 96];
         $reversePoint = [1 => 5, 2 => 4, 3 => 3, 4 => 2, 5 => 1];
 
         foreach ($answerList as $row) {
@@ -115,112 +84,33 @@ class IndexLogic extends Logic
 
             switch (true) {
                 //1.抗压因素：反映个体的挫折耐受力。
-                //承受因子
-                case in_array($id, [17, 35, 51, 66, 83, 98]):
+                case in_array($id, [17, 35, 51, 66, 83, 98, 3, 19, 36, 67, 84, 96, 13, 29, 45, 61, 77, 94, 7, 24, 40, 55, 72, 88, 8, 25, 41, 56, 73, 89 , 18, 33, 50, 65, 81, 99, 14, 30, 46, 62, 78, 95, 12, 28, 44, 60, 76, 92]):
                     $frustrationPoints += $point;
-                    $frustrationPoints += $point;
-
-                    $totalPoint += $point;
-                    break;
-                //顽强因子
-                case in_array($id, [3, 19, 36, 67, 84, 96]):
-                    $frustrationPoints += $point;
-                    $frustrationPoints += $point;
-
-                    $totalPoint += $point;
-                    break;
-                //坚定因子
-                case in_array($id, [13, 29, 45, 61, 77, 94]):
-                    $frustrationPoints += $point;
-                    $frustrationPoints += $point;
-
-                    $totalPoint += $point;
-                    break;
-                //沉着因子
-                case in_array($id, [7, 24, 40, 55, 72, 88]):
-                    $frustrationPoints += $point;
-                    $frustrationPoints += $point;
-
-                    $totalPoint += $point;
                     break;
 
-                //2.抗拉因素：反映个体的抗心理冲突能力或选择能力。
-                //判断因子
-                case in_array($id, [8, 25, 41, 56, 73, 89]):
-                    $frustrationPoints += $point;
-                    $frustrationPoints += $point;
-
-                    $totalPoint += $point;
-                    break;
-                //决策因子
-                case in_array($id, [18, 33, 50, 65, 81, 99]):
-                    $frustrationPoints += $point;
-                    $frustrationPoints += $point;
-
-                    $totalPoint += $point;
-                    break;
-                //果断因子
-                case in_array($id, [14, 30, 46, 62, 78, 95]):
-                    $frustrationPoints += $point;
-                    $frustrationPoints += $point;
-
-                    $totalPoint += $point;
-                    break;
-                //应变因子
-                case in_array($id, [12, 28, 44, 60, 76, 92]):
-                    $frustrationPoints += $point;
-                    $frustrationPoints += $point;
-
-                    $totalPoint += $point;
+                //2.责任心因素：反映个体的责任感以及对工作的忠实度
+                case in_array($id, [6, 23, 39, 54, 71, 74, 79, 85, 87, 5, 21, 38, 53, 57, 69, 86]):
+                    $responsiblePoints += $point;
                     break;
 
-                //3.责任心因素：反映个体的责任感以及对工作的忠实度
-                //责任因子
-                case in_array($id, [6, 23, 39, 54, 71, 74, 79, 85, 87]):
-                    $frustrationPoints += $point;
-                    $frustrationPoints += $point;
-
-                    $totalPoint += $point;
-                    break;
-                //忠实因子
-                case in_array($id, [5, 21, 38, 53, 57, 69, 86]):
-                    $frustrationPoints += $point;
-                    $frustrationPoints += $point;
-
-                    $totalPoint += $point;
+                //3.自我调节因素：反映个体经受挫折的心理能力和行为品质
+                case in_array($id, [27, 42, 43, 58, 75, 91, 16, 31, 47, 63, 66, 79, 83, 97, 98]):
+                    $debuggingPoints += $point;
                     break;
 
-                //4。自我调节因素：反映个体经受挫折的心理能力和行为品质
-                //适应因子
-                case in_array($id, [27, 42, 43, 58, 75, 91]):
-                    $frustrationPoints += $point;
-                    $frustrationPoints += $point;
-
-                    $totalPoint += $point;
-                    break;
-                //调节因子
-                case in_array($id, [16, 31, 47, 63, 66, 79, 83, 97, 98]):
-                    $frustrationPoints += $point;
-                    $frustrationPoints += $point;
-
-                    $totalPoint += $point;
-                    break;
-
-                //5.团体协作因素：反映个体在团队中与他人的合作情况。
-                //乐群因子
+                //4.团体协作因素：反映个体在团队中与他人的合作情况。
                 case in_array($id, [4, 9, 10, 15, 20, 26, 32, 37, 52, 68, 85, 90, 97]):
-                    $frustrationPoints += $point;
-                    $frustrationPoints += $point;
-
-                    $totalPoint += $point;
+                    $assistancePoints += $point;
                     break;
 
-                //6､测谎题：包括11,-22,34,49,59,-70,82,-93共8个条目。
-                case in_array($id, [11, 22, 34, 49, 59, 70, 82, 93]):
-                    $frustrationPoints += $point;
-                    $frustrationPoints += $point;
+                //5.自我效能感因素
+                case in_array($id, [28, 30, 39, 48, 62, 73, 76, 77, 92, 95, 100]):
+                    $selfEfficacyPoints += $point;
+                    break;
 
-                    $totalPoint += $point;
+                //6､测谎题：包括-22,34,49,59,-70,82,-93 共8题。
+                case in_array($id, [22, 34, 49, 59, 70, 82, 93]):
+                    $subscalePoints += $point;
                     break;
 
                 default:
@@ -228,7 +118,11 @@ class IndexLogic extends Logic
             }
         }
 
-//        $totalPoint = $frustrationPoints + $responsiblePoints + $debuggingPoints + $assistancePoints + $selfEfficacyPoints + $subscalePoints;
+        $totalPoint += ($frustrationPoints - 75) / 165 * 100 * 0.1;
+        $totalPoint += ($responsiblePoints - 23) / 57 * 100 * 0.3;
+        $totalPoint += ($debuggingPoints - 23) / 52 * 100 * 0.1;
+        $totalPoint += ($assistancePoints - 21) / 36 * 100 * 0.2;
+        $totalPoint += ($selfEfficacyPoints - 11) / 44 * 100 * 0.3;
 
         return [
             'totalPoints'        => $totalPoint,
@@ -237,8 +131,8 @@ class IndexLogic extends Logic
             'debuggingPoints'    => $debuggingPoints,
             'assistancePoints'   => $assistancePoints,
             'selfEfficacyPoints' => $selfEfficacyPoints,
+            'subscalePoints'     => $subscalePoints,
         ];
-
     }
 
     /**
@@ -246,7 +140,7 @@ class IndexLogic extends Logic
      * @param array $answerList
      *
      * @return bool
-     * @throws \yii\db\Exception
+     * @throws \Exception
      */
     public function saveAnswer(int $uid, array $answerList)
     {
@@ -267,7 +161,6 @@ class IndexLogic extends Logic
             'self_efficacy_points' => $pointResult['selfEfficacyPoints'] ?? 0,
             'subscale_points'      => $pointResult['subscalePoints'] ?? 0,
         ];
-
 
         $trans = \Yii::$app->db->beginTransaction();
         try {

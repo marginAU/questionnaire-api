@@ -48,7 +48,7 @@ CREATE TABLE `answer` (
   `debugging_points` int(11) NOT NULL DEFAULT '0' COMMENT '心理调试能力分数',
   `assistance_points` int(11) NOT NULL DEFAULT '0' COMMENT '团队协助能力分数',
   `self_efficacy_points` int(11) NOT NULL DEFAULT '0' COMMENT '自我效能感分数',
-  `subscale_points` int(11) NOT NULL DEFAULT '0' COMMENT '分量表分数',
+  `subscale_points` int(11) NOT NULL DEFAULT '0' COMMENT '测谎分数,低于10分建议无效',
   `ctime` int(11) NOT NULL DEFAULT '0' COMMENT '创建时间',
   PRIMARY KEY (`id`),
   KEY `uid` (`uid`)
@@ -75,7 +75,7 @@ CREATE TABLE `admin_user` (
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  COMMENT='后台用户';
 
-insert into `admin_user` (username,password,status,salt) values ('oujun','7c47ba4845476d9e2104508d898116ae',1,'asdf');
+insert into `admin_user` (username,password,status,salt) values ('oujun','6ee404cabe2241435e5072ba8d340d22',1,'asdf');
 SQL;
 
         $this->db->createCommand($sql)->execute();
