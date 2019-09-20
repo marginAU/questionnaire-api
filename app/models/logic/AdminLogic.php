@@ -341,7 +341,6 @@ class AdminLogic extends Logic
             ];
         }
 
-        $answerList = [];
         $fileName   = '问卷列表' . date('Y-m-d H:i:s') . '.csv';
 
         $headers = [
@@ -373,7 +372,7 @@ class AdminLogic extends Logic
             'ctime'               => '提交时间',
         ];
 
-        CsvHelper::exportCsv($answerList, $headers, ['fileName' => $fileName, 'convType' => true]);
+        CsvHelper::exportCsv($userList, $headers, ['fileName' => $fileName, 'convType' => true]);
     }
 
     /**
@@ -468,10 +467,6 @@ class AdminLogic extends Logic
         foreach ($content as $point => $item) {
             if ($value <= $point) {
                 $remark = $item;
-                continue;
-            }
-
-            if ($value > $point) {
                 break;
             }
         }
