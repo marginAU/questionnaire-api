@@ -4,7 +4,7 @@ return [
     'class'        => \yii\db\Connection::class,
     'dsn'          => 'mysql:host=localhost;dbname=questionnaire',
     'username'     => 'root',
-    'password'     => 'Oj949800!@#',
+    'password'     => '?VF!:e2#we/S',
     'charset'      => 'utf8mb4',
     'commandClass' => \app\components\Command::class,
     'attributes'   => [
@@ -17,7 +17,7 @@ return [
     ],
     'slaveConfig'  => [
         'username'   => 'root',
-        'password'   => 'Oj949800!@#',
+        'password'   => '?VF!:e2#we/S',
         'charset'    => 'utf8mb4',
         'attributes' => [
             PDO::ATTR_TIMEOUT => 5,
