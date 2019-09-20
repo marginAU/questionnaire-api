@@ -474,6 +474,10 @@ class AdminLogic extends Logic
         foreach ($content as $point => $item) {
             if ($value <= $point) {
                 $remark = $item;
+                continue;
+            }
+
+            if ($value > $point) {
                 break;
             }
         }
