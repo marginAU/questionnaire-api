@@ -240,7 +240,6 @@ class AdminLogic extends Logic
             $user   = [
                 'id'             => $user['id'],
                 'username'       => $user['username'],
-                'idcard'         => $user['idcard'],
                 'sex'            => $user['sex'],
                 'mobile'         => $user['mobile'],
                 'sourcePlace'    => $user['sourcePlace'],
