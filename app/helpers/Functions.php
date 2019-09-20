@@ -201,7 +201,7 @@ if (!function_exists('get_uniqid')) {
 }
 if (!function_exists('redis')) {
     /**
-     * @return \app\Components\Redis
+     * @return \app\components\Redis
      */
     function redis()
     {
