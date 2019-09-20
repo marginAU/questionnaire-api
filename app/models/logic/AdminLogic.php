@@ -402,10 +402,8 @@ class AdminLogic extends Logic
             'answerDetail' => [
                 'id'                  => $uid,
                 'username'            => $user['username'],
-                'idcard'              => $user['idcard'],
                 'sex'                 => $user['sex'],
                 'mobile'              => $user['mobile'],
-                'sourcePlace'         => $user['sourcePlace'],
                 'position'            => $user['position'],
                 'useTime'             => $useTime < 0 ? 0 : $useTime,
                 'ctime'               => date('Y-m-d H:i:s', $user['ctime']),
