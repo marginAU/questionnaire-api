@@ -57,10 +57,14 @@ class UserData
         return User::find()->where($cond)->offset(($page - 1) * $size)->limit($size)->orderBy('ctime DESC')->all();
     }
 
+    public function getAllList(array $cond)
+    {
+        return User::find()->where($cond)->all();
+    }
+
     public function getCount(array $cond)
     {
         return User::find()->where($cond)->count('id');
-
     }
 
 

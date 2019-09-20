@@ -44,14 +44,9 @@ class User extends Model
         return [
             'political_status'   => 'politicalStatus',
             'marital_status'     => 'maritalStatus',
-            'work_time'          => 'workTime',
-            'work_place'         => 'workPlace',
             'children_or_not'    => 'childrenOrNot',
-            'children_sex'       => 'childrenSex',
-            'children_age'       => 'childrenAge',
+            'children_num'       => 'childrenNum',
             'parent_work_status' => 'parentWorkStatus',
-            'social_scale'       => 'socialScale',
-            'source_place'       => 'sourcePlace',
         ];
     }
 }

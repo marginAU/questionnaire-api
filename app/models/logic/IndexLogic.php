@@ -37,12 +37,12 @@ class IndexLogic extends Logic
     public function saveUserInfo(array $params)
     {
         $conditions = [
-            'idcard' => $params['idcard'],
+            'mobile' => $params['mobile'],
             'status' => CommonConst::STATUS_YES
         ];
         $user       = $this->userData->getDetailByCondition($conditions);
         if (!empty($user)) {
-            Log::error('该身份证号用户已提交问卷,params=' . json_encode($params));
+            Log::error('该电话号码用户已提交问卷,params=' . json_encode($params));
             throw new \Exception('您已提交问卷');
         }
 
@@ -55,7 +55,7 @@ class IndexLogic extends Logic
         return ['uid' => $id];
     }
 
-     /**
+    /**
      *  计算分 算出区间
      *
      * @param array $answerList
@@ -84,7 +84,56 @@ class IndexLogic extends Logic
 
             switch (true) {
                 //1.抗压因素：反映个体的挫折耐受力。
-                case in_array($id, [17, 35, 51, 66, 83, 98, 3, 19, 36, 67, 84, 96, 13, 29, 45, 61, 77, 94, 7, 24, 40, 55, 72, 88, 8, 25, 41, 56, 73, 89 , 18, 33, 50, 65, 81, 99, 14, 30, 46, 62, 78, 95, 12, 28, 44, 60, 76, 92]):
+                case in_array($id, [
+                    17,
+                    35,
+                    51,
+                    66,
+                    83,
+                    98,
+                    3,
+                    19,
+                    36,
+                    67,
+                    84,
+                    96,
+                    13,
+                    29,
+                    45,
+                    61,
+                    77,
+                    94,
+                    7,
+                    24,
+                    40,
+                    55,
+                    72,
+                    88,
+                    8,
+                    25,
+                    41,
+                    56,
+                    73,
+                    89,
+                    18,
+                    33,
+                    50,
+                    65,
+                    81,
+                    99,
+                    14,
+                    30,
+                    46,
+                    62,
+                    78,
+                    95,
+                    12,
+                    28,
+                    44,
+                    60,
+                    76,
+                    92
+                ]):
                     $frustrationPoints += $point;
                     break;
 

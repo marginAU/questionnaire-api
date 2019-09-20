@@ -44,6 +44,7 @@ class IndexController extends Controller
     }
 
     /**
+     * @throws \Throwable
      * @throws \yii\base\ExitException
      */
     public function actionSaveUser()
@@ -51,22 +52,16 @@ class IndexController extends Controller
         $params = [
             'sex'              => ValidatorHelper::validateString($_POST, 'sex', null, null, 'A'),
             'username'         => ValidatorHelper::validateString($_POST, 'username'),
-            'idcard'           => ValidatorHelper::validateString($_POST, 'idcard', null, null, ''),
-            'mobile'           => ValidatorHelper::validateString($_POST, 'mobile', null, null, ''),
-            'position'         => ValidatorHelper::validateString($_POST, 'position', null, null, ''),
-            'sourcePlace'      => ValidatorHelper::validateString($_POST, 'sourcePlace', null, null, ''),
-            'age'              => ValidatorHelper::validateInteger($_POST, 'age', null, null, 0),
             'nation'           => ValidatorHelper::validateString($_POST, 'nation', null, null, ''),
-            'politicalStatus'  => ValidatorHelper::validateInteger($_POST, 'politicalStatus', null, null, 1),
+            'mobile'           => ValidatorHelper::validateString($_POST, 'mobile', null, null, ''),
+            'birthday'         => ValidatorHelper::validateString($_POST, 'birthday', null, null, ''),
+            'age'              => ValidatorHelper::validateInteger($_POST, 'age', null, null, 0),
             'maritalStatus'    => ValidatorHelper::validateString($_POST, 'maritalStatus'),
             'education'        => ValidatorHelper::validateString($_POST, 'education'),
-            'workTime'         => ValidatorHelper::validateInteger($_POST, 'workTime', null, null, 0),
-            'workPlace'        => ValidatorHelper::validateString($_POST, 'workPlace', null, null, ''),
             'childrenOrNot'    => ValidatorHelper::validateString($_POST, 'childrenOrNot', null, null, 'B'),
-            'childrenSex'      => ValidatorHelper::validateString($_POST, 'childrenSex', null, null, ''),
-            'childrenAge'      => ValidatorHelper::validateInteger($_POST, 'childrenAge', null, null, 0),
+            'childrenNum'      => ValidatorHelper::validateString($_POST, 'childrenNum', null, null, 'A'),
             'parentWorkStatus' => ValidatorHelper::validateString($_POST, 'parentWorkStatus', null, null, 'A'),
-            'socialScale'      => ValidatorHelper::validateInteger($_POST, 'socialScale', null, null, 10),
+            'politicalStatus'  => ValidatorHelper::validateInteger($_POST, 'politicalStatus', null, null, 1),
         ];
 
         $result = $this->logic()->saveUserInfo($params);

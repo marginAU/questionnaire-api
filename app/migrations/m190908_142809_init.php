@@ -17,26 +17,20 @@ CREATE TABLE `user` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `sex` varchar(255)   NOT NULL DEFAULT 'A' COMMENT '性别，A=男。B=女',
   `username` varchar(255)   NOT NULL DEFAULT '' COMMENT '姓名',
-  `idcard` varchar(255)   NOT NULL DEFAULT '' COMMENT '身份证',
-  `position` varchar(255)   NOT NULL DEFAULT '' COMMENT '应聘岗位',
+  `mobile` varchar(512)   NOT NULL DEFAULT '' COMMENT '电话',
+  `birthday` varchar(512)   NOT NULL DEFAULT '' COMMENT '生日',
   `age` tinyint(3) NOT NULL DEFAULT '0' COMMENT '年龄',
   `nation` varchar(255)   NOT NULL DEFAULT '' COMMENT '名族',
   `political_status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '政治面貌，1=群众，2=团圆，3=党员',
   `marital_status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '婚姻状况，A 已婚  B 未婚  C离异  D丧偶',
   `education` varchar(255)   NOT NULL DEFAULT '' COMMENT '学历，A=初中及以下，B=高中/中专，C=高职/大专，D=大学本科，E=硕士（包括MBA,EMBA,MPA等），F=博士',
   `status` tinyint(2) NOT NULL DEFAULT '2' COMMENT '是否提交完成，1=是，2=否',
-  `ctime` int(11) NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `work_time` tinyint(2) NOT NULL DEFAULT '0' COMMENT '从事气象行业工作时间',
-  `work_place` varchar(512)   NOT NULL DEFAULT '' COMMENT '工作地点',
   `children_or_not` varchar(255)   NOT NULL DEFAULT 'B' COMMENT '是否有子女A=是，2=否',
-  `children_sex` varchar(255)   NOT NULL DEFAULT 'A' COMMENT '子女性别A=男。B=女',
-  `children_age` tinyint(2) NOT NULL DEFAULT '0' COMMENT '子女年龄',
+  `children_num` varchar (255)   NOT NULL DEFAULT 0 COMMENT '子女数量,A=1个，B=2个，C=3个及以上',
   `parent_work_status` tinyint(2) NOT NULL DEFAULT '2' COMMENT '父母或近亲中是否有人在气象行业工作',
-  `social_scale` tinyint(2) NOT NULL DEFAULT '10' COMMENT '社会等级',
-  `source_place` varchar(512)   NOT NULL DEFAULT '' COMMENT '生源地',
-  `mobile` varchar(512)   NOT NULL DEFAULT '' COMMENT '电话',
+  `ctime` int(11) NOT NULL DEFAULT '0' COMMENT '创建时间',
   PRIMARY KEY (`id`),
-  KEY `idcard` (`idcard`)
+  KEY `mobile` (`mobile`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  COMMENT='提交答案用户表';
 
 CREATE TABLE `answer` (

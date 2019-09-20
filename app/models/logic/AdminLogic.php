@@ -1,15 +1,14 @@
 <?php
 
-
 namespace app\models\logic;
 
 use app\components\CacheConst;
 use app\components\CommonConst;
 use app\components\log\Log;
+use app\helpers\CsvHelper;
 use app\models\data\AdminUserData;
 use app\models\data\AnswerData;
 use app\models\data\UserData;
-use yii\redis\Connection;
 
 /**
  * @uses     AdminLogic
@@ -259,10 +258,125 @@ class AdminLogic extends Logic
         ];
     }
 
-//下载
+    const POLITICAL_STATUS = [
+        1 => '群众',
+        2 => '团员',
+        3 => '党员',
+    ];
+
+    const MERRY_STATUS = [
+        'A' => '已婚',
+        'B' => '未婚',
+        'C' => '离异',
+        'D' => '丧偶'
+    ];
+
+    const EDUCTION     = [
+        'A' => '初中及以下',
+        'B' => '高中/中专',
+        'C' => '高职/大专',
+        'D' => '大学本科',
+        'E' => '硕士（包括MBA,EMBA,MPA等）',
+        'F' => '博士',
+    ];
+    const CHILDREN_NUM = [
+        'A' => '1个',
+        'B' => '2个',
+        'C' => '3个及以上',
+    ];
+
+    /**
+     * 下载
+     *
+     * @param string $startTime
+     * @param string $endTime
+     *
+     * @throws \yii\base\ExitException
+     */
     public function download(string $startTime, string $endTime)
     {
+        $conditions = [
+            'and',
+            ['>=', 'ctime', strtotime($startTime)],
+            ['<', 'ctime', strtotime($endTime . ' 23:59:59')],
+            ['status' => CommonConst::STATUS_YES]
+        ];
+        $userList   = $this->userData->getAllList($conditions);
+        if (empty($userList)) {
+            Log::warning('下载数据为空，cond=' . json_encode($conditions));
+        }
 
+        $uids       = array_column($userList, 'id');
+        $answerList = $this->answerData->getList(['uid' => $uids]);
+        $answerList = array_column($answerList, null, 'uid');
+
+        foreach ($userList as &$user) {
+            $user     = $user->toArray();
+            $answer   = empty($answerList[$user['id']]) ? [] : $answerList[$user['id']]->toArray();
+            $childNum = ($user['childrenOrNot'] == 'B') ? '无' : (self::CHILDREN_NUM[$user['childrenNum']] ?? '1个');
+            $user     = [
+                'id'                  => $user['id'],
+                'username'            => $user['username'],
+                'mobile'              => $user['mobile'],
+                'sex'                 => ($user['sex'] == 'A') ? '男' : '女',
+                'nation'              => $user['nation'],
+                'birthday'            => $user['birthday'],
+                'maritalStatus'       => self::MERRY_STATUS[$user['maritalStatus']] ?? '未婚',
+                'politicalStatus'     => self::POLITICAL_STATUS[$user['politicalStatus']] ?? '群众',
+                'education'           => self::EDUCTION[$user['education']] ?? '初中及以下',
+                'childrenOrNot'       => ($user['childrenOrNot'] == 'A') ? '是' : '否',
+                'childrenNum'         => $childNum,
+                'parentWorkStatus'    => ($user['parentWorkStatus'] == CommonConst::STATUS_YES) ? '是' : '否',
+                'subscalePoints'      => (($answer['subscalePoints'] ?? 0) <= 0) ? '建议作废' : ($answer['subscalePoints'] ?? 0),
+                'totalPoints'         => $answer['totalPoints'],
+                'totalPointsContent'  => $this->getRemarkByPoints('totalPoints', $answer['totalPoints']),
+                'frustrationPoints'   => $answer['frustrationPoints'],
+                'frustrationContent'  => $this->getRemarkByPoints('frustrationPoints', $answer['frustrationPoints']),
+                'responsiblePoints'   => $answer['responsiblePoints'],
+                'responsibleContent'  => $this->getRemarkByPoints('responsiblePoints', $answer['responsiblePoints']),
+                'debuggingPoints'     => $answer['debuggingPoints'],
+                'debuggingContent'    => $this->getRemarkByPoints('debuggingPoints', $answer['debuggingPoints']),
+                'assistancePoints'    => $answer['assistancePoints'],
+                'assistanceContent'   => $this->getRemarkByPoints('assistancePoints', $answer['assistancePoints']),
+                'selfEfficacyPoints'  => $answer['selfEfficacyPoints'],
+                'selfEfficacyContent' => $this->getRemarkByPoints('selfEfficacyPoints', $answer['selfEfficacyPoints']),
+                'ctime'               => date('Y-m-d H:i:s', $user['ctime']),
+            ];
+        }
+
+        $answerList = [];
+        $fileName   = '问卷列表' . date('Y-m-d H:i:s') . '.csv';
+
+        $headers = [
+            'id'                  => '序号',
+            'username'            => '用户姓名',
+            'mobile'              => '电话',
+            'sex'                 => '性别',
+            'nation'              => '名族',
+            'birthday'            => '生日',
+            'maritalStatus'       => '婚姻状态',
+            'politicalStatus'     => '政治面貌',
+            'education'           => '受教育程度',
+            'childrenOrNot'       => '有无子女',
+            'childrenNum'         => '子女数量',
+            'parentWorkStatus'    => '父母或近亲是否在气象行业工作',
+            'subscalePoints'      => '测谎分数',
+            'totalPoints'         => '总分',
+            'totalPointsContent'  => '总分评语',
+            'frustrationPoints'   => '耐挫抗压能力因素评分',
+            'frustrationContent'  => '耐挫抗压能力因素评分评语',
+            'responsiblePoints'   => '责任心因素评分',
+            'responsibleContent'  => '责任心因素评分评语',
+            'debuggingPoints'     => '自我调节因素评分',
+            'debuggingContent'    => '自我调节因素评分评语',
+            'assistancePoints'    => '团队协作因素评分',
+            'assistanceContent'   => '团队协作因素评分评语',
+            'selfEfficacyPoints'  => '自我效能感因素评分',
+            'selfEfficacyContent' => '自我效能感因素评分评语',
+            'ctime'               => '提交时间',
+        ];
+
+        CsvHelper::exportCsv($answerList, $headers, ['fileName' => $fileName, 'convType' => true]);
     }
 
     /**
