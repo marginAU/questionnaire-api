@@ -76,13 +76,14 @@ class Controller extends \yii\web\Controller
             ],
             [
                 'allow'   => true,
-                'actions' => ['send-code', 'login', 'get-we-chat-unionid'],
+                'actions' => ['login'],
                 'roles'   => ['?'],
             ],
             [
                 'allow'       => true,
                 'controllers' => ['admin'],
-                'roles'       => ['download-answer'],
+                'actions'     => ['download-answer'],
+                'roles'       => ['?'],
             ],
         ];
     }
