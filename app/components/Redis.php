@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Components;
+namespace app\components;
 
 use yii\redis\Connection;
 
