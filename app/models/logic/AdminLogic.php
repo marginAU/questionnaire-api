@@ -37,7 +37,7 @@ class AdminLogic extends Logic
     const FRUSTRATION_BEST_REMARK   = '此类受测者有着出色的耐挫抗压能力，他们在人群中所占的数量不会超过10%。他们几乎不会受到压力带来的困扰，也不太可能被压力所束缚。一般来说，他们沉稳坚定，在绝大部分困难或压力面前都能保持一颗平常心。他们也不惧挑战，甚至喜欢挑战，因而他们中的一些人以解决难题为乐，从战胜挑战和解决问题中收获成就感。在团队中因为沉稳坚定，他们往往能影响其他成员，使他们平静下来面对挑战和压力。';
     const RESPONSIBLE_BEST_REMARK   = '对于此类受测者来说，责任与自己的人品几乎是同义词，承诺对于他们来说有着极其重要的意义。由于常常将团队的责任视为自己的责任，所以无论身处何地，此类受测者都能很快融入团队成员，以主动的姿态进入工作。他们的内驱力主要来自他们内心比一般人要强烈得多的责任感，因此他们的成就也往往来自于类似于“这是我的责任”、“我说过的就一定要做到”这样的信念。他们不能理解缺乏责任心的同事，对于经常不守承诺的朋友他们也会敬而远之。了解他们的人常常会给予他们“靠谱”、“靠得住”的评价，而他们也认为这是自己身上最出色的一点，以此为荣。';
     const DEBUGGING_BEST_REMARK     = '此类受测者是少数的乐观派，仅占人群的10%。他们有较强的自我调节能力，可以在多种情况下从容不迫、不乱阵脚。此类受测者中有些是天性如此，有些则是经过长期训练的结果。他们几乎可以面对任何情况，在突发事件面前他们往往是最沉着不变的那一个。他们的从容常给人信心，他们的乐观常让人得到安慰。';
-    const ASSISTANCE_REMARK         = '此类受测者认为团队是工作中极其重要的关键因素，他们很重视团队，非常清楚团队对于自我发展的作用。擅长沟通一直都是此类受测者的优点，他们处理团队中的各种关系都游刃有余，懂得分寸，总是能够凝聚起团队，并在团队中展现出优秀的一面。如果他们刚好具有一定水平的专业能力，他们中的多数人会自然而然成为团队的领导者。对于此类受测者来说，没有团队是不可想象的，他们始终将团队放在第一位，有时甚至会为了团队牺牲一些个人的利益。  ';
+    const ASSISTANCE_BEST_REMARK    = '此类受测者认为团队是工作中极其重要的关键因素，他们很重视团队，非常清楚团队对于自我发展的作用。擅长沟通一直都是此类受测者的优点，他们处理团队中的各种关系都游刃有余，懂得分寸，总是能够凝聚起团队，并在团队中展现出优秀的一面。如果他们刚好具有一定水平的专业能力，他们中的多数人会自然而然成为团队的领导者。对于此类受测者来说，没有团队是不可想象的，他们始终将团队放在第一位，有时甚至会为了团队牺牲一些个人的利益。  ';
     const SELF_EFFICACY_BEST_REMARK = '此类受测者的人生词典里没有“我不行”、“我做不到”这样的话语，他们对自己说的最多的话是“怎样才可以？”“要实现那个目标，下一步我要做什么？”……在工作中，他们不仅会选择适合于自己能力水平的任务，他们还会试着去做一些富有挑战性的工作，而且他们从来都认为自己成功的可能性非常大。对于他们来说，困难是磨练，而不是应该避免的威胁；即使失败，原因也是自己的努力还不够，或是自己的运气还差一点，而不是因为自己的能力不行或是天资太差。他们总是把注意力集中在积极分析问题和解决困难上，知难而上、执著追求，常常超常发挥，将“不可能”变成“我做到了”或“我们做到了”。
 有时在同事或亲友眼里，他们可能会显得有些过分自信，太喜欢冒险，但在他们自己看来，人生就是要不断前进，不断冒险，不断折腾，因为“我做得到！”';
 
@@ -443,20 +443,20 @@ class AdminLogic extends Logic
                 $bestRemark = self::FRUSTRATION_BEST_REMARK;
                 break;
             case 'responsiblePoints':
-                $content    = self::FRUSTRATION_CONTENT;
-                $bestRemark = self::FRUSTRATION_BEST_REMARK;
+                $content    = self::RESPONSIBLE_CONTENT;
+                $bestRemark = self::RESPONSIBLE_BEST_REMARK;
                 break;
             case 'debuggingPoints':
-                $content    = self::FRUSTRATION_CONTENT;
-                $bestRemark = self::FRUSTRATION_BEST_REMARK;
+                $content    = self::DEBUGGING_CONTENT;
+                $bestRemark = self::DEBUGGING_BEST_REMARK;
                 break;
             case 'assistancePoints':
-                $content    = self::FRUSTRATION_CONTENT;
-                $bestRemark = self::FRUSTRATION_BEST_REMARK;
+                $content    = self::ASSISTANCE_CONTENT;
+                $bestRemark = self::ASSISTANCE_BEST_REMARK;
                 break;
             case 'selfEfficacyPoints':
-                $content    = self::FRUSTRATION_CONTENT;
-                $bestRemark = self::FRUSTRATION_BEST_REMARK;
+                $content    = self::SELF_EFFICACY_CONTENT;
+                $bestRemark = self::SELF_EFFICACY_BEST_REMARK;
                 break;
 
             default:
