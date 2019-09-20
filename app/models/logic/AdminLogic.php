@@ -242,7 +242,6 @@ class AdminLogic extends Logic
                 'username'       => $user['username'],
                 'sex'            => $user['sex'],
                 'mobile'         => $user['mobile'],
-                'sourcePlace'    => $user['sourcePlace'],
                 'position'       => $user['position'],
                 'totalPoints'    => $answer['totalPoints'] ?? 0,
                 'subscalePoints' => $answer['subscalePoints'] ?? 0,
