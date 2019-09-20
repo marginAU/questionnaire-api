@@ -9,6 +9,7 @@ composer.lock
 .git/
 .phpintel/
 *.patch
+vendor/
 runtime/
 docs/
 temp/
