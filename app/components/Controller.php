@@ -81,8 +81,8 @@ class Controller extends \yii\web\Controller
             ],
             [
                 'allow'       => true,
-                'controllers' => ['index'],
-                'roles'       => ['?'],
+                'controllers' => ['admin'],
+                'roles'       => ['download-answer'],
             ],
         ];
     }
