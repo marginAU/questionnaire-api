@@ -273,7 +273,7 @@ class AdminLogic extends Logic
         'B' => '高中/中专',
         'C' => '高职/大专',
         'D' => '大学本科',
-        'E' => '硕士（包括MBA,EMBA,MPA等）',
+        'E' => '硕士（包括MBA、EMBA、MPA等）',
         'F' => '博士',
     ];
     const CHILDREN_NUM = [
