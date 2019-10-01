@@ -64,7 +64,6 @@ class IndexLogic extends Logic
      */
     private function getPoint(array $answerList)
     {
-        $totalPoint         = 0;
         $frustrationPoints  = 0;//抗挫能力分数
         $responsiblePoints  = 0;//责任心分数
         $debuggingPoints    = 0;//心理调试能力分数
@@ -167,11 +166,14 @@ class IndexLogic extends Logic
             }
         }
 
-        $totalPoint += ($frustrationPoints - 75) / 165 * 100 * 0.1;
-        $totalPoint += ($responsiblePoints - 23) / 57 * 100 * 0.3;
-        $totalPoint += ($debuggingPoints - 23) / 52 * 100 * 0.1;
-        $totalPoint += ($assistancePoints - 21) / 36 * 100 * 0.2;
-        $totalPoint += ($selfEfficacyPoints - 11) / 44 * 100 * 0.3;
+        $frustrationPoints  = (int)($frustrationPoints - 75) / 165 * 100;
+        $responsiblePoints  = (int)($responsiblePoints - 23) / 57 * 100;
+        $debuggingPoints    = (int)($debuggingPoints - 23) / 52 * 100;
+        $assistancePoints   = (int)($assistancePoints - 23) / 41 * 100;
+        $selfEfficacyPoints = (int)($selfEfficacyPoints - 11) / 44 * 100;
+
+        $totalPoint = $frustrationPoints + $responsiblePoints + $debuggingPoints;
+        $totalPoint = $totalPoint + $selfEfficacyPoints + $assistancePoints;
 
         return [
             'totalPoints'        => $totalPoint,
