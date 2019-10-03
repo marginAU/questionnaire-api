@@ -72,98 +72,94 @@ class IndexLogic extends Logic
         $selfEfficacyPoints = 0;//自我效能感分数
         $subscalePoints     = 0;//测谎分数
 
+        //7、13、16、18、22、26、32、41、46、51、52、53、60、70、75､87､93、96
         $allReverse   = [7, 13, 16, 18, 22, 26, 32, 41, 46, 51, 52, 53, 60, 70, 75, 87, 93, 96];
         $reversePoint = [1 => 5, 2 => 4, 3 => 3, 4 => 2, 5 => 1];
 
         foreach ($answerList as $row) {
-            $id    = $row['id'];
-            $point = $row['answer'];
+            $id    = (int)$row['id'];
+            $point = (int)$row['answer'];
             if (in_array($id, $allReverse)) {
                 $point = $reversePoint[$point] ?? 0;
             }
 
-            switch (true) {
-                //1.抗压因素：反映个体的挫折耐受力。
-                case in_array($id, [
-                    17,
-                    35,
-                    51,
-                    66,
-                    83,
-                    98,
-                    3,
-                    19,
-                    36,
-                    67,
-                    84,
-                    96,
-                    13,
-                    29,
-                    45,
-                    61,
-                    77,
-                    94,
-                    7,
-                    24,
-                    40,
-                    55,
-                    72,
-                    88,
-                    8,
-                    25,
-                    41,
-                    56,
-                    73,
-                    89,
-                    18,
-                    33,
-                    50,
-                    65,
-                    81,
-                    99,
-                    14,
-                    30,
-                    46,
-                    62,
-                    78,
-                    95,
-                    12,
-                    28,
-                    44,
-                    60,
-                    76,
-                    92
-                ]):
-                    $frustrationPoints += $point;
-                    break;
+            //1.抗压因素：反映个体的挫折耐受力。
+            if (in_array($id, [
+                17,
+                35,
+                51,
+                66,
+                83,
+                98,
+                3,
+                19,
+                36,
+                67,
+                84,
+                96,
+                13,
+                29,
+                45,
+                61,
+                77,
+                94,
+                7,
+                24,
+                40,
+                55,
+                72,
+                88,
+                8,
+                25,
+                41,
+                56,
+                73,
+                89,
+                18,
+                33,
+                50,
+                65,
+                81,
+                99,
+                14,
+                30,
+                46,
+                62,
+                78,
+                95,
+                12,
+                28,
+                44,
+                60,
+                76,
+                92
+            ])) {
+                $frustrationPoints += $point;
+            }
 
-                //2.责任心因素：反映个体的责任感以及对工作的忠实度
-                case in_array($id, [6, 23, 39, 54, 71, 74, 79, 85, 87, 5, 21, 38, 53, 57, 69, 86]):
-                    $responsiblePoints += $point;
-                    break;
+            //2.责任心因素：反映个体的责任感以及对工作的忠实度
+            if (in_array($id, [6, 23, 39, 54, 71, 74, 79, 85, 87, 5, 21, 38, 53, 57, 69, 86])) {
+                $responsiblePoints += $point;
+            }
 
-                //3.自我调节因素：反映个体经受挫折的心理能力和行为品质
-                case in_array($id, [27, 42, 43, 58, 75, 91, 16, 31, 47, 63, 66, 79, 83, 97, 98]):
-                    $debuggingPoints += $point;
-                    break;
+            //3.自我调节因素：反映个体经受挫折的心理能力和行为品质 27、42、43、58、-75、91、-16、31、47、63、66、79、83、97、98
+            if (in_array($id, [27, 42, 43, 58, 75, 91, 16, 31, 47, 63, 66, 79, 83, 97, 98])) {
+                $debuggingPoints += $point;
+            }
 
-                //4.团体协作因素：反映个体在团队中与他人的合作情况。
-                case in_array($id, [4, 9, 10, 15, 20, 26, 32, 37, 52, 68, 85, 90, 97]):
-                    $assistancePoints += $point;
-                    break;
+            //4.团体协作因素：反映个体在团队中与他人的合作情况。
+            if (in_array($id, [4, 9, 10, 15, 20, 26, 32, 37, 52, 68, 85, 90, 97])) {
+                $assistancePoints += $point;
+            }
 
-                //5.自我效能感因素
-                case in_array($id, [28, 30, 39, 48, 62, 73, 76, 77, 92, 95, 100]):
-                    $selfEfficacyPoints += $point;
-                    break;
+            //5.自我效能感因素
+            if (in_array($id, [28, 30, 39, 48, 62, 73, 76, 77, 92, 95, 100])) {
+                $selfEfficacyPoints += $point;
+            }
 
-                //6､测谎题：包括-22,34,49,59,-70,82,-93 共8题。
-                case in_array($id, [22, 34, 49, 59, 70, 82, 93]):
-                    $subscalePoints += $point;
-                    break;
-
-                default:
-                    break;
+            //6､测谎题：包括-22,34,49,59,-70,82,-93 共8题。
+            if (in_array($id, [22, 34, 49, 59, 70, 82, 93])) {
+                $subscalePoints += $point;
             }
         }
 
@@ -185,7 +181,7 @@ class IndexLogic extends Logic
             'responsiblePoints'  => (int)$responsiblePoints,
             'debuggingPoints'    => (int)$debuggingPoints,
             'assistancePoints'   => (int)$assistancePoints,
-            'selfEfficacyPoints' => $selfEfficacyPoints,
+            'selfEfficacyPoints' => (int)$selfEfficacyPoints,
             'subscalePoints'     => (int)$subscalePoints,
         ];
     }
