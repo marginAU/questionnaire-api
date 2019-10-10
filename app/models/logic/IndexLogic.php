@@ -167,6 +167,7 @@ class IndexLogic extends Logic
         $responsiblePoints  = ($responsiblePoints - 23) / 57 * 100;
         $debuggingPoints    = ($debuggingPoints - 23) / 52 * 100;
         $assistancePoints   = ($assistancePoints - 23) / 41 * 100;
+        $assistancePoints   = ($assistancePoints >= 100) ? 100 : $assistancePoints;
         $selfEfficacyPoints = ($selfEfficacyPoints - 11) / 44 * 100;
 
         $totalPoint += $frustrationPoints * 0.1;
