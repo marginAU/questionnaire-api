@@ -6,6 +6,7 @@ use app\components\CommonConst;
 use app\components\log\Log;
 use app\models\data\AnswerData;
 use app\models\data\AnswerSourceData;
+use app\models\data\RandCodeData;
 use app\models\data\UserData;
 
 /**
@@ -29,13 +30,16 @@ class IndexLogic extends Logic
     }
 
     /**
-     * @param array $params
+     * @param array  $params
+     * @param string $loginCode
      *
      * @return array
      * @throws \Throwable
      */
-    public function saveUserInfo(array $params)
+    public function saveUserInfo(array $params, string $loginCode)
     {
+        $this->verifyLoginCode($loginCode);
+
         $conditions = [
             'mobile' => $params['mobile'],
             'status' => CommonConst::STATUS_YES
@@ -188,14 +192,17 @@ class IndexLogic extends Logic
     }
 
     /**
-     * @param int   $uid
-     * @param array $answerList
+     * @param int    $uid
+     * @param array  $answerList
+     * @param string $loginCode
      *
      * @return bool
      * @throws \Exception
      */
-    public function saveAnswer(int $uid, array $answerList)
+    public function saveAnswer(int $uid, array $answerList, string $loginCode)
     {
+        $this->verifyLoginCode($loginCode);
+
         $user = $this->userData->getDetail($uid, CommonConst::STATUS_NO);
         if (empty($user)) {
             Log::error('用户不存在，uid=' . $uid);
@@ -232,4 +239,24 @@ class IndexLogic extends Logic
         return true;
     }
 
+
+    /**
+     * @param string $loginCode
+     *
+     * @return bool
+     * @throws \Exception
+     */
+    public function verifyLoginCode(string $loginCode): bool
+    {
+        $codeData   = new RandCodeData();
+        $time       = time();
+        $conditions = ['and', ['code' => $loginCode, 'status' => CommonConst::STATUS_YES], ['>=', 'expire', $time]];
+        $res        = $codeData->getDetailByCondition($conditions);
+        if (empty($res)) {
+            Log::error('登录码失效,loginCode=' . $loginCode . ',time=', $time);
+            throw new \Exception('登录码失效');
+        }
+
+        return true;
+    }
 }

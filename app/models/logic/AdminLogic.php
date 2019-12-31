@@ -8,6 +8,7 @@ use app\components\log\Log;
 use app\helpers\CsvHelper;
 use app\models\data\AdminUserData;
 use app\models\data\AnswerData;
+use app\models\data\RandCodeData;
 use app\models\data\UserData;
 
 /**
@@ -22,12 +23,14 @@ class AdminLogic extends Logic
     private $adminData;
     private $userData;
     private $answerData;
+    private $randData;
 
     public function __construct()
     {
         $this->adminData  = new AdminUserData();
         $this->userData   = new UserData();
         $this->answerData = new AnswerData();
+        $this->randData   = new RandCodeData();
     }
 
     private static $expire = 3600 * 12;
@@ -204,21 +207,35 @@ class AdminLogic extends Logic
     /**
      * 答案列表
      *
+     * @param int    $uid
      * @param string $startTime
      * @param string $endTime
+     * @param string $mobile
+     * @param string $idcard
      * @param int    $page
      * @param int    $size
      *
      * @return array
+     * @throws \Exception
      */
-    public function answerList(string $startTime, string $endTime, int $page, int $size)
-    {
-        $conditions = [
-            'and',
-            ['>=', 'ctime', strtotime($startTime)],
-            ['<', 'ctime', strtotime($endTime . ' 23:59:59')],
-            ['status' => CommonConst::STATUS_YES]
-        ];
+    public function answerList(
+        int $uid,
+        string $startTime,
+        string $endTime,
+        string $mobile,
+        string $idcard,
+        int $page,
+        int $size
+    ) {
+        $conditions = $this->getCondition($uid, $startTime, $endTime);
+
+        if (!empty($mobile)) {
+            $conditions[] = ['mobile' => $mobile];
+        }
+
+        if (!empty($idcard)) {
+            $conditions[] = ['idcard' => $idcard];
+        }
 
         $count    = $this->userData->getCount($conditions);
         $userList = $this->userData->getList($conditions, $page, $size);
@@ -283,21 +300,44 @@ class AdminLogic extends Logic
     ];
 
     /**
+     * @param int    $uid
+     * @param string $startTime
+     * @param string $endTime
+     *
+     * @return array
+     * @throws \Exception
+     */
+    private function getCondition(int $uid, string $startTime, string $endTime)
+    {
+        $user = $this->adminData->getDetailByUid($uid);
+        if (empty($user)) {
+            Log::warning('用户不存在，uid=' . $uid);
+            throw new \Exception('用户不存在');
+        }
+
+        $conditions = [
+            'and',
+            ['>=', 'ctime', strtotime($startTime)],
+            ['<', 'ctime', strtotime($endTime . ' 23:59:59')],
+            ['status' => CommonConst::STATUS_YES],
+            ['worker_place_id' => $user->workerPlaceId]
+        ];
+
+        return $conditions;
+    }
+
+    /**
      * 下载
      *
+     * @param int    $uid
      * @param string $startTime
      * @param string $endTime
      *
      * @throws \yii\base\ExitException
      */
-    public function download(string $startTime, string $endTime)
+    public function download(int $uid, string $startTime, string $endTime)
     {
-        $conditions = [
-            'and',
-            ['>=', 'ctime', strtotime($startTime)],
-            ['<', 'ctime', strtotime($endTime . ' 23:59:59')],
-            ['status' => CommonConst::STATUS_YES]
-        ];
+        $conditions = $this->getCondition($uid, $startTime, $endTime);
         $userList   = $this->userData->getAllList($conditions);
         if (empty($userList)) {
             Log::warning('下载数据为空，cond=' . json_encode($conditions));
@@ -341,7 +381,7 @@ class AdminLogic extends Logic
             ];
         }
 
-        $fileName   = '问卷列表' . date('Y-m-d H:i:s') . '.csv';
+        $fileName = '问卷列表' . date('Y-m-d H:i:s') . '.csv';
 
         $headers = [
             'id'                  => '序号',
@@ -472,5 +512,105 @@ class AdminLogic extends Logic
         }
 
         return $remark ?? $bestRemark;
+    }
+
+    /**
+     * @param int $num
+     *
+     * @return bool
+     * @throws \Exception
+     */
+    public function generateCode(int $num)
+    {
+        if ($num <= 0) {
+            throw new \Exception('num不能小于或等于0');
+        }
+
+        $rows   = [];
+        $time   = time();
+        $expire = $time + (3600 * 24);
+        for ($i = 1; $i <= $num; $i++) {
+            $unique = get_uniqid();
+            $code   = substr($unique, 20, 8);
+            $rows[] = [$code, $expire, $time, $time];
+        }
+
+        $column = ['code', 'expire', 'ctime', 'utime'];
+        return $this->randData->batchInsert($column, $rows);
+    }
+
+    /**
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public function getLoginCodeList()
+    {
+        $conditions = [
+            'and',
+            'status' => CommonConst::STATUS_YES,
+            ['>=', 'expire', time()]
+        ];
+        $list       = $this->randData->getList($conditions, 0, 999);
+
+        return $list;
+    }
+
+    /**
+     * @param int $page
+     * @param int $size
+     *
+     * @return array
+     */
+    public function getAdminUserList(int $page, int $size): array
+    {
+        $conditions = ['status' => CommonConst::STATUS_YES];
+        $list       = $this->adminData->getList($conditions, $page, $size);
+        $total      = $this->adminData->getCount($conditions);
+
+        return ['total' => $total, 'page' => $page, 'list' => $list];
+    }
+
+    /**
+     * @param int   $uid
+     * @param array $params
+     *
+     * @return bool
+     * @throws \Exception
+     */
+    public function updateAdminUser(int $uid, array $params)
+    {
+        $user = $this->adminData->getDetail($params['username']);
+
+        if (!empty($user) && $user->id != $uid) {
+            throw new \Exception('用户名已存在');
+        }
+
+        return $this->adminData->update($uid, $params);
+    }
+
+    /**
+     * @param array $params
+     *
+     * @return bool
+     * @throws \Throwable
+     */
+    public function addAdminUser(array $params)
+    {
+        if ($this->adminData->getDetail($params['username'])) {
+            throw new \Exception('用户名已存在');
+        }
+
+        $params['salt'] = substr(get_uniqid(), 0, 6);
+
+        return $this->adminData->add($params);
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return bool
+     */
+    public function delAdminUser(int $id)
+    {
+        return $this->adminData->update($id, ['status' => CommonConst::STATUS_NO]);
     }
 }

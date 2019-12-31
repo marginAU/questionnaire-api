@@ -7,6 +7,7 @@ use app\helpers\HeaderHelper;
 use app\helpers\ResponseHelper;
 use app\helpers\ValidatorHelper;
 use app\models\logic\AdminLogic;
+use app\models\logic\WorkerPlaceLogic;
 
 /**
  * @uses     AdminController
@@ -53,12 +54,15 @@ class AdminController extends Controller
     public function actionAnswerList()
     {
         $defaultTime = date('Y-m-d', strtotime('-7 day'));
+        $uid         = HeaderHelper::getUid();
+        $mobile      = ValidatorHelper::validateString($_POST, 'mobile', null, null, '');
+        $idcard      = ValidatorHelper::validateString($_POST, 'idcard', null, null, '');
         $startTime   = ValidatorHelper::validateString($_POST, 'startTime', null, null, $defaultTime);
         $endTime     = ValidatorHelper::validateString($_POST, 'endTime', null, null, date('Y-m-d'));
         $page        = ValidatorHelper::validateInteger($_POST, 'page', null, null, 1);
         $size        = ValidatorHelper::validateInteger($_POST, 'size', null, null, 10);
 
-        $res = $this->logic()->answerList($startTime, $endTime, $page, $size);
+        $res = $this->logic()->answerList($uid, $startTime, $endTime, $mobile, $idcard, $page, $size);
 
         ResponseHelper::outputJson($res);
     }
@@ -83,10 +87,100 @@ class AdminController extends Controller
         $defaultTime = date('Y-m-d', strtotime('-7 day'));
         $startTime   = ValidatorHelper::validateString($_POST, 'startTime', null, null, $defaultTime);
         $endTime     = ValidatorHelper::validateString($_POST, 'endTime', null, null, date('Y-m-d'));
+        $uid         = HeaderHelper::getUid();
 
-        $this->logic()->download($startTime, $endTime);
+        $this->logic()->download($uid, $startTime, $endTime);
 
         ResponseHelper::outputJson();
     }
 
+    /**
+     * @throws \yii\base\ExitException
+     */
+    public function actionGenerateCode()
+    {
+        $num = ValidatorHelper::validateInteger($_POST, 'num', 0);
+
+        $this->logic()->generateCode($num);
+
+        ResponseHelper::outputJson();
+    }
+
+    /**
+     * @throws \yii\base\ExitException
+     */
+    public function actionGetLoginCode()
+    {
+        $res = $this->logic()->getLoginCodeList();
+
+        ResponseHelper::outputJson($res);
+    }
+
+    /**
+     * @throws \yii\base\ExitException
+     */
+    public function actionGetWorkPlace()
+    {
+        $res = (new WorkerPlaceLogic())->getList();
+
+        ResponseHelper::outputJson($res);
+    }
+
+    /**
+     * @throws \yii\base\ExitException
+     */
+    public function actionGetAdminUserList()
+    {
+        $page = ValidatorHelper::validateInteger($_POST, 'page', null, null, 1);
+        $size = ValidatorHelper::validateInteger($_POST, 'size', null, null, 10);
+        $res  = $this->logic()->getAdminUserList($page, $size);
+
+        ResponseHelper::outputJson($res);
+    }
+
+    /**
+     * @throws \Throwable
+     * @throws \yii\base\ExitException
+     */
+    public function actionAddAdminUserList()
+    {
+        $params = [
+            'username'      => ValidatorHelper::validateString('username'),
+            'password'      => ValidatorHelper::validateString('password'),
+            'workerPlaceId' => ValidatorHelper::validateInteger('workerPlaceId'),
+        ];
+
+        $this->logic()->addAdminUser($params);
+
+        ResponseHelper::outputJson();
+    }
+
+    /**
+     * @throws \yii\base\ExitException
+     */
+    public function actionUpdateAdminUser()
+    {
+        $uid    = ValidatorHelper::validateInteger($_POST, 'uid');
+        $params = [
+            'username'      => ValidatorHelper::validateString('username'),
+            'password'      => ValidatorHelper::validateString('password'),
+            'workerPlaceId' => ValidatorHelper::validateInteger('workerPlaceId'),
+        ];
+
+        $this->logic()->updateAdminUser($uid, $params);
+
+        ResponseHelper::outputJson();
+    }
+
+    /**
+     * @throws \yii\base\ExitException
+     */
+    public function actionDelAdminUser()
+    {
+        $uid = ValidatorHelper::validateInteger($_POST, 'uid');
+
+        $this->logic()->delAdminUser($uid);
+
+        ResponseHelper::outputJson();
+    }
 }

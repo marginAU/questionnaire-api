@@ -39,14 +39,14 @@ class Controller extends \yii\web\Controller
             'checkCommonParameters' => array(
                 'class' => CheckCommonParameters::class,
             ),
-            'checkUserToken'        => [
-                'class' => CheckUserToken::class,
-            ],
-            'access'                => [
-                'class'        => AccessControl::class,
-                'rules'        => $this->accessRules(),
-                'denyCallback' => [$this, 'accessDenied'],
-            ],
+//            'checkUserToken'        => [
+//                'class' => CheckUserToken::class,
+//            ],
+//            'access'                => [
+//                'class'        => AccessControl::class,
+//                'rules'        => $this->accessRules(),
+//                'denyCallback' => [$this, 'accessDenied'],
+//            ],
         ];
     }
 

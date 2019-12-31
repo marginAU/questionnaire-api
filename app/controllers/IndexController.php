@@ -7,6 +7,7 @@ use app\helpers\ResponseHelper;
 use app\helpers\ValidatorHelper;
 use app\models\logic\IndexLogic;
 use app\components\Controller;
+use app\models\logic\WorkerPlaceLogic;
 
 /**
  * 默认控制器
@@ -49,7 +50,8 @@ class IndexController extends Controller
      */
     public function actionSaveUser()
     {
-        $params = [
+        $loginCode = ValidatorHelper::validateString($_POST, 'loginCode');
+        $params    = [
             'sex'              => ValidatorHelper::validateString($_POST, 'sex', null, null, 'A'),
             'username'         => ValidatorHelper::validateString($_POST, 'username'),
             'nation'           => ValidatorHelper::validateString($_POST, 'nation', null, null, ''),
@@ -64,18 +66,18 @@ class IndexController extends Controller
             'politicalStatus'  => ValidatorHelper::validateInteger($_POST, 'politicalStatus', null, null, 1),
         ];
 
-        $result = $this->logic()->saveUserInfo($params);
+        $result = $this->logic()->saveUserInfo($params, $loginCode);
 
         ResponseHelper::outputJson($result);
     }
 
     /**
      * @throws \yii\base\ExitException
-     * @throws \yii\db\Exception
      */
     public function actionSaveAnswer()
     {
         $uid        = ValidatorHelper::validateInteger($_POST, 'uid');
+        $loginCode  = ValidatorHelper::validateString($_POST, 'loginCode');
         $answerList = $_POST['answerList'] ?? [];
         if (empty($answerList)) {
             Log::error('answerList不能为空');
@@ -87,8 +89,30 @@ class IndexController extends Controller
             ValidatorHelper::validateInteger($row, 'answer');
         }
 
-        $this->logic()->saveAnswer($uid, $answerList);
+        $this->logic()->saveAnswer($uid, $answerList, $loginCode);
 
         ResponseHelper::outputJson();
+    }
+
+    /**
+     * @throws \yii\base\ExitException
+     */
+    public function actionVerifyLoginCode()
+    {
+        $loginCode = ValidatorHelper::validateString($_POST, 'loginCode');
+
+        $this->logic()->verifyLoginCode($loginCode);
+
+        ResponseHelper::outputJson();
+    }
+
+    /**
+     * @throws \yii\base\ExitException
+     */
+    public function actionGetWorkPlace()
+    {
+        $res = (new WorkerPlaceLogic())->getList();
+
+        ResponseHelper::outputJson($res);
     }
 }

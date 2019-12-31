@@ -50,7 +50,47 @@ class AdminUserData
             return true;
         }
 
+        if (!empty($params['password'])) {
+            $params['password'] = md5(md5($user->salt) . $params['password']);
+        }
+
         $user->setAttributes($params, false);
         return $user->save();
     }
+
+    /**
+     * @param array $params
+     *
+     * @return bool
+     * @throws \Throwable
+     */
+    public function add(array $params): bool
+    {
+        $params['ctime'] = time();
+
+        $model = new AdminUser();
+
+        if (!empty($params['password'])) {
+            $params['password'] = md5(md5($params['salt']) . $params['password']);
+        }
+
+        $model->setAttributes($params, false);
+        $result = $model->insert();
+        if ($result === false) {
+            return 0;
+        }
+
+        return \Yii::$app->db->getLastInsertID();
+    }
+
+    public function getList(array $cond, int $page, int $size)
+    {
+        return AdminUser::find()->where($cond)->offset(($page - 1) * $size)->limit($size)->orderBy('ctime DESC')->all();
+    }
+
+    public function getCount(array $cond)
+    {
+        return AdminUser::find()->where($cond)->count('id');
+    }
+
 }

@@ -4,12 +4,13 @@ namespace app\models\dao;
 
 /**
  * @property integer $id
- * @property string  $username 用户账户
- * @property string  $password 密码
- * @property integer $status   状态，1=有效，2=无效
- * @property integer $ctime    创建时间
- * @property string  $token    token
- * @property string  $salt     salt
+ * @property string  $username          用户账户
+ * @property string  $password          密码
+ * @property integer $status            状态，1=有效，2=无效
+ * @property integer $ctime             创建时间
+ * @property string  $token             token
+ * @property string  $salt              salt
+ * @property string  $workerPlaceId     workerPlaceId
  *
  * AdminUser
  *
@@ -28,7 +29,7 @@ class AdminUser extends Model
     public function maps(): array
     {
         return [
-
+            'worker_place_id' => 'workerPlaceId',
         ];
     }
 }
