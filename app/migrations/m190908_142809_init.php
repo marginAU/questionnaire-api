@@ -60,7 +60,7 @@ CREATE TABLE `admin_user` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(255)   NOT NULL DEFAULT '' COMMENT '用户账户',
   `password` varchar(255)   NOT NULL DEFAULT '' COMMENT '密码',
-  `status` tinyint(2) NOT NULL COMMENT '状态，1=有效，2=无效',
+  `status` tinyint(2) NOT NULL default 1 COMMENT '状态，1=有效，2=无效',
   `ctime` int(11) NOT NULL default 0 COMMENT '创建时间',
   `token` varchar(512)   NOT NULL DEFAULT '' COMMENT 'token',
   `salt` varchar(64)   NOT NULL DEFAULT '' COMMENT '盐',
