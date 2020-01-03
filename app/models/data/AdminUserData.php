@@ -33,7 +33,7 @@ class AdminUserData
      */
     public function getDetailByUid(int $uid)
     {
-        return AdminUser::findOne(['uid' => $uid, 'status' => CommonConst::STATUS_YES]);
+        return AdminUser::findOne(['id' => $uid, 'status' => CommonConst::STATUS_YES]);
     }
 
 
