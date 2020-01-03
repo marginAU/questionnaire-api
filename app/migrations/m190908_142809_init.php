@@ -66,7 +66,7 @@ CREATE TABLE `admin_user` (
   `salt` varchar(64)   NOT NULL DEFAULT '' COMMENT '盐',
   `expires` int (11)  NOT NULL DEFAULT 0 COMMENT 'token有效时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`)
+  KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  COMMENT='后台用户';
 
 insert into `admin_user` (username,password,status,salt) values ('oujun','6ee404cabe2241435e5072ba8d340d22',1,'asdf');
