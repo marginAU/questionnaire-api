@@ -56,6 +56,7 @@ class IndexController extends Controller
             'username'         => ValidatorHelper::validateString($_POST, 'username'),
             'nation'           => ValidatorHelper::validateString($_POST, 'nation', null, null, ''),
             'mobile'           => ValidatorHelper::validateString($_POST, 'mobile', null, null, ''),
+            'idcard'           => ValidatorHelper::validateString($_POST, 'idcard', null, null, ''),
             'birthday'         => ValidatorHelper::validateString($_POST, 'birthday', null, null, ''),
             'age'              => ValidatorHelper::validateInteger($_POST, 'age', null, null, 0),
             'maritalStatus'    => ValidatorHelper::validateString($_POST, 'maritalStatus'),

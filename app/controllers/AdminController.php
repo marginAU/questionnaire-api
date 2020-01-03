@@ -142,12 +142,12 @@ class AdminController extends Controller
      * @throws \Throwable
      * @throws \yii\base\ExitException
      */
-    public function actionAddAdminUserList()
+    public function actionAddAdminUser()
     {
         $params = [
-            'username'      => ValidatorHelper::validateString('username'),
-            'password'      => ValidatorHelper::validateString('password'),
-            'workerPlaceId' => ValidatorHelper::validateInteger('workerPlaceId'),
+            'username'      => ValidatorHelper::validateString($_POST, 'username'),
+            'password'      => ValidatorHelper::validateString($_POST, 'password'),
+            'workerPlaceId' => ValidatorHelper::validateInteger($_POST, 'workerPlaceId'),
         ];
 
         $this->logic()->addAdminUser($params);
@@ -162,9 +162,9 @@ class AdminController extends Controller
     {
         $uid    = ValidatorHelper::validateInteger($_POST, 'uid');
         $params = [
-            'username'      => ValidatorHelper::validateString('username'),
-            'password'      => ValidatorHelper::validateString('password'),
-            'workerPlaceId' => ValidatorHelper::validateInteger('workerPlaceId'),
+            'username'      => ValidatorHelper::validateString($_POST, 'username'),
+            'password'      => ValidatorHelper::validateString($_POST, 'password'),
+            'workerPlaceId' => ValidatorHelper::validateInteger($_POST, 'workerPlaceId'),
         ];
 
         $this->logic()->updateAdminUser($uid, $params);
