@@ -109,7 +109,7 @@ class IndexController extends Controller
     /**
      * @throws \yii\base\ExitException
      */
-    public function actionGetWorkPlace()
+    public function actionGetWorkerPlace()
     {
         $res = (new WorkerPlaceLogic())->getList();
 
