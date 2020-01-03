@@ -66,7 +66,8 @@ class AdminUserData
      */
     public function add(array $params): bool
     {
-        $params['ctime'] = time();
+        $params['ctime']  = time();
+        $params['status'] = CommonConst::STATUS_YES;
 
         $model = new AdminUser();
 
