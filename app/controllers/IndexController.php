@@ -65,6 +65,7 @@ class IndexController extends Controller
             'childrenNum'      => ValidatorHelper::validateString($_POST, 'childrenNum', null, null, 'A'),
             'parentWorkStatus' => ValidatorHelper::validateString($_POST, 'parentWorkStatus', null, null, 'A'),
             'politicalStatus'  => ValidatorHelper::validateInteger($_POST, 'politicalStatus', null, null, 1),
+            'workerPlaceId' => ValidatorHelper::validateInteger($_POST, 'workerPlaceId'),
         ];
 
         $result = $this->logic()->saveUserInfo($params, $loginCode);
